@@ -1,0 +1,41 @@
+# History files
+.Rhistory
+.Rapp.history
+
+# Session Data files
+.RData
+.Ruserdata
+
+# RStudio files
+.Rproj.user/
+*.Rproj
+
+# Environment variables
+.env
+
+# Data files
+*.csv
+*.tsv
+*.xlsx
+*.sav
+*.rds
+
+# Cache / temp files
+*.log
+*.aux
+*.out
+*.toc
+
+# Packrat or renv
+packrat/
+renv/library/
+renv/python/
+renv/staging/
+.Renviron
+
+# Shiny application logs
+*.shinylogs
+
+# OS-specific
+.DS_Store
+Thumbs.db
