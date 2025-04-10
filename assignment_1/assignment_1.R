@@ -31,6 +31,5 @@ plot(d$x, d$y, type="l", xlab="x", ylab="density", ylim=c(0, max(ci_up)))
 points(tritium, rep(0,n), pch = 3)
 points(d$x, ci_up, type="l", lty=2)
 points(d$x, ci_lo, type="l", lty=2)
-points(d$x, dnorm(d$x), type="l", col=2, lwd=2)
 
 # Question 3: Kernel density estimator using Epanechnikov kernel
