@@ -41,15 +41,40 @@ points(NWe$x,NWe$y,type = "l",col=2,lwd=2)
 points(NWe$x,CI_up,type = "l",col=2,lwd=2,lty=2)
 points(NWe$x,CI_lo,type = "l",col=2,lwd=2,lty=2)
 
-# Question 4: Local quadratic regression
+
+
+               
+# Question 4: Local quadratic regression using leave-one-out-cross-validation for h              
+               
+h_seq <- seq(0.05, 1, by = 0.01)
+cv_errors <- numeric(length(h_seq))
+
+for (j in seq_along(h_seq)) {
+  h <- h_seq[j]
+  errors <- numeric(length(x))
+  
+  for (i in 1:length(x)) {
+    x_train <- x[-i]
+    y_train <- y[-i]
+    
+    z <- x_train - x[i]
+    w <- dnorm(z / h)
+    
+    fit <- lm(y_train ~ z + I(z^2), weights = w)
+    y_pred <- coef(fit)[1]
+    errors[i] <- (y[i] - y_pred)^2
+  }
+    cv_errors[j] <- mean(errors)
+}
+optimal_h <- h_seq[which.min(cv_errors)]
+
 
 xval <- seq(min(x), max(x), length.out = 802)
-h <- 0.15
 lqest <- rep(NA, length(xval)) 
                
 for (i in 1:length(xval)) {
   z <- x - xval[i]
-  w <- dnorm(z / h)  
+  w <- dnorm(z / optimal_h)  
   wls <- lm(y ~ z + I(z^2), weights = w)
   lqest[i] <- wls$coef[1]
 }
@@ -62,7 +87,6 @@ lines(xval, lqest, col = 2, lwd = 2)
 # Question 5: Local quadratic regression with first and second derivative
 
 xval <- seq(min(x), max(x), length.out = 802)
-h <- 0.15
 
 lqest <- rep(NA, length(xval))       
 lqest_prime <- rep(NA, length(xval)) 
@@ -70,7 +94,7 @@ lqest_double_prime <- rep(NA, length(xval))
 
 for (i in 1:length(xval)) {
   z <- x - xval[i]
-  w <- dnorm(z / h)
+  w <- dnorm(z / optimal_h)
   wls <- lm(y ~ z + I(z^2), weights = w)  
   coefs <- coef(wls)
   
