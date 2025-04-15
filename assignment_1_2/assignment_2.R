@@ -64,9 +64,9 @@ lines(xval, lqest, col = 2, lwd = 2)
 xval <- seq(min(x), max(x), length.out = 802)
 h <- 0.15
 
-lqest <- rep(NA, length(xval))       # function estimate
-lqest_prime <- rep(NA, length(xval)) # first derivative
-lqest_double_prime <- rep(NA, length(xval)) # second derivative
+lqest <- rep(NA, length(xval))       
+lqest_prime <- rep(NA, length(xval)) 
+lqest_double_prime <- rep(NA, length(xval)) 
 
 for (i in 1:length(xval)) {
   z <- x - xval[i]
@@ -74,9 +74,9 @@ for (i in 1:length(xval)) {
   wls <- lm(y ~ z + I(z^2), weights = w)  
   coefs <- coef(wls)
   
-  lqest[i] <- coefs[1]                      # β₀
-  lqest_prime[i] <- coefs[2]                # β₁ (1st derivative)
-  lqest_double_prime[i] <- 2 * coefs[3]     # 2·β₂ (2nd derivative)
+  lqest[i] <- coefs[1]                   
+  lqest_prime[i] <- coefs[2]               
+  lqest_double_prime[i] <- 2 * coefs[3]     
 }
 
 plot(x, y, pch = 16, col = "gray60",
