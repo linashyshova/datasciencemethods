@@ -1,5 +1,5 @@
 # Read data
-data <- read.csv("assignment_1/tritium.csv")
+data <- read.csv("assignment_1_2/tritium.csv")
 attach(data)
 
 # Question 1: Nadaraya-Watson regression
