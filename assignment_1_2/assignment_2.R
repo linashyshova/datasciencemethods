@@ -42,7 +42,18 @@ points(NWe$x,CI_up,type = "l",col=2,lwd=2,lty=2)
 points(NWe$x,CI_lo,type = "l",col=2,lwd=2,lty=2)
 
 
+# Question 3: Check for conditional variance
 
+residuals2_NW <- (y - NWe1$y)^2
+
+residuals2_min_h <- optim(par = 0.3, fn=function(h) NW_CV(x,residuals2_NW,h), method = "BFGS")
+(residuals2_h_cv <- residuals2_min_h$par)
+
+NWe_residuals2 <- ksmooth(x, residuals2_NW, kernel="normal", bandwidth=residuals2_h_cv, x.points=x_val)
+str(NWe_residuals2)
+
+plot(x, residuals2_NW, xlab = "Pressure", ylab = "Residuals Squared", col = "gray40", pch = 1)
+lines(NWe_residuals2$x, NWe_residuals2$y, col = 2, lwd = 2)
                
 # Question 4: Local quadratic regression using leave-one-out-cross-validation for h              
                
