@@ -41,3 +41,31 @@ yhat <- predict(best_model, newdata = data.frame(x=xval))
 
 plot(x, y, col="gray40")
 points(xval, yhat, type = "l", col=2, lwd=2)
+
+# Question 4: Predicting tritium level curve with contour plot
+
+# Variables
+y <- dta$tritium
+x1 <- dta$longitude
+x2 <- dta$latitude
+
+# Load the mgcv package
+library(mgcv)
+
+# Fits GAM with thin plate spline over (longitude, latitude)
+est_gam <- gam(y ~ s(x1, x2))
+
+# Grid of values for prediction
+x1val <- seq(min(x1), max(x1), length.out = 100)
+x2val <- seq(min(x2), max(x2), length.out = 100)
+xval <- expand.grid(x1 = x1val, x2 = x2val)
+
+# Predicting on the grid
+yhat <- predict(est_gam, newdata = xval)
+ymat <- matrix(yhat, 100, 100)
+
+# Contour plot
+contour(x = x1val, y = x2val, z = ymat,
+        xlab = "Longitude", ylab = "Latitude",
+        xlim = range(x1), ylim = range(x2))
+points(x1, x2, col = 2, pch = 20, cex = 0.5)
