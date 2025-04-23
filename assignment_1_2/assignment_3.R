@@ -45,9 +45,9 @@ points(xval, yhat, type = "l", col=2, lwd=2)
 # Question 4: Predicting tritium level curve with contour plot
 
 # Variables
-y <- dta$tritium
-x1 <- dta$longitude
-x2 <- dta$latitude
+y <- tritium
+x1 <- longitude
+x2 <- latitude
 
 # Load the mgcv package
 library(mgcv)
