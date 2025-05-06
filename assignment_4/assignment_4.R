@@ -16,7 +16,29 @@ pred <- predict(est_par, newdata = data.frame(x = x_grid), type = "response")
 plot(x, y, pch = 16, col = "gray", main = "Logistic Regression", xlab = "Alcohol", ylab = "Conditional probability y=1")
 lines(x_grid, pred, col = "blue", lwd = 2)
 
-# Question 2
+# Question 2 - non-parametric logistic regression
 
+x <- alcohol
+y <- quality
+est_s <- gam(y ~ s(x), family = binomial)
+
+# Predicting on the grid
+xval <- data.frame("x" = seq(min(x), max(x), length.out = 500))
+pred <- predict(est_s, xval, se.fit = TRUE)
+
+# Extract predicted log-odds and compute 95% confidence intervals
+pred_val <- pred$fit
+pred_up <- pred_val + qnorm(0.975) * pred$se.fit
+pred_lo <- pred_val + qnorm(0.025) * pred$se.fit
+
+# Logistic transformation to get probabilities from log-odds
+prob_fit <- exp(pred_val) / (1 + exp(pred_val))
+prob_up  <- exp(pred_up)  / (1 + exp(pred_up))
+prob_lo  <- exp(pred_lo)  / (1 + exp(pred_lo))
+
+plot(x, y, ylab = "High Quality", xlab = "Alcohol", pch = 20, col = rgb(0,0,0,0.2))
+points(xval$x, prob_fit, type = "l", col = 2, lwd = 2)
+points(xval$x, prob_up,  type = "l", col = 2, lwd = 2, lty = 2)
+points(xval$x, prob_lo,  type = "l", col = 2, lwd = 2, lty = 2)
 
 # Question 3
