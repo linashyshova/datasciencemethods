@@ -2,7 +2,7 @@ library(mgcv)
 
 
 # Read data
-data <- read.csv("assignment_4/red_wine.csv")
+data <- read.csv("assignment_4_5/red_wine.csv")
 attach(data)
 
 # Question 1 - parametric logistic regression
