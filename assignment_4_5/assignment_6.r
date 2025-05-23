@@ -69,3 +69,21 @@ accuracy_calc <- function(pred_probs, true_labels) {
 
 final_accuracy <- accuracy_calc(final_probs, y_test)
 cat("Neural network accuracy on test data:", final_accuracy, "\n")
+
+# Exercise 3: Additive NP logistic model
+
+# Fit GAM using all regressors
+est_gam <- gam(quality ~ s(fixed.acidity) + s(volatile.acidity) + s(citric.acid) +
+                 s(residual.sugar) + s(chlorides) + s(free.sulfur.dioxide) +
+                 s(total.sulfur.dioxide) + s(density) + s(pH) + s(sulphates) + s(alcohol),
+               data = train_val_data, family = binomial)
+
+# Predict probabilities on test set
+final_probs_gam <- predict(est_gam, newdata = test_data, type = "raw")
+
+final_accuracy_gam <- accuracy_calc(final_probs_gam, y_test)
+cat("Additive NP logistic model accuracy on test data:", final_accuracy_gam, "\n")
+
+misclassification_gam <- 1 - final_accuracy_gam
+cat("Additive NP logistic model misclassification rate on test data:", misclassification_gam, "\n")
+
